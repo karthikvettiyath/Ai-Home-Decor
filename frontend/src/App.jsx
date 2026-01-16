@@ -13,7 +13,11 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
+
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center text-white">Loading...</div>; // Or a proper spinner
+  }
 
   if (!currentUser) {
     return <Navigate to="/login" replace />;
