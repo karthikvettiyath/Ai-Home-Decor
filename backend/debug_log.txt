@@ -1,0 +1,18 @@
+[2026-01-15T13:28:06.377Z] --- START DEBUG ---
+[2026-01-15T13:28:06.385Z] Key present: true
+[2026-01-15T13:28:06.386Z] Key length: 39
+[2026-01-15T13:28:06.388Z] Testing model: gemini-pro...
+[2026-01-15T13:28:06.388Z] Sending prompt: "Explain 'Hello World' in 5 words."
+[2026-01-15T13:28:07.153Z] FATAL ERROR CAUGHT:
+[2026-01-15T13:28:07.154Z] [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+[2026-01-15T13:28:07.154Z] Status: Not Found
+[2026-01-15T13:28:07.155Z] --- END DEBUG ---
+[2026-01-15T13:28:21.529Z] --- START DEBUG ---
+[2026-01-15T13:28:21.536Z] Key present: true
+[2026-01-15T13:28:21.538Z] Key length: 39
+[2026-01-15T13:28:21.539Z] Testing model: gemini-pro...
+[2026-01-15T13:28:21.540Z] Sending prompt: "Explain 'Hello World' in 5 words."
+[2026-01-15T13:28:22.280Z] FATAL ERROR CAUGHT:
+[2026-01-15T13:28:22.281Z] [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+[2026-01-15T13:28:22.281Z] Status: Not Found
+[2026-01-15T13:28:22.282Z] --- END DEBUG ---

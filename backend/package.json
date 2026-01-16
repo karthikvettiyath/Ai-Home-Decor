@@ -1,0 +1,17 @@
+{
+    "name": "ai-home-decor-backend",
+    "version": "1.0.0",
+    "description": "Backend proxy for Gemini API",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "@google/genai": "^1.37.0",
+        "@google/generative-ai": "^0.24.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.6.1",
+        "express": "^4.22.1"
+    }
+}
