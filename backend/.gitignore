@@ -1,0 +1,6 @@
+node_modules
+.env
+serviceAccountKey.json
+test_firebase.js
+debug*
+output.txt
