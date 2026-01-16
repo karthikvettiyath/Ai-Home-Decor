@@ -34,7 +34,13 @@ const Register = () => {
             );
             navigate('/user-dashboard');
         } catch (err) {
-            setError('Failed to create an account: ' + err.message);
+            if (err.code === 'auth/email-already-in-use') {
+                setError('This email is already registered.');
+            } else if (err.code === 'auth/weak-password') {
+                setError('Password should be at least 6 characters.');
+            } else {
+                setError('Failed to create an account: ' + err.message);
+            }
         } finally {
             setLoading(false);
         }

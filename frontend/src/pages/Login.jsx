@@ -21,7 +21,12 @@ const Login = () => {
             await login(formData.email, formData.password);
             navigate('/user-dashboard');
         } catch (err) {
-            setError('Failed to login: ' + err.message);
+            console.error("Login Error:", err);
+            if (err.code === 'auth/invalid-credential') {
+                setError('Invalid email or password');
+            } else {
+                setError('Failed to login: ' + (err.message || "Unknown error"));
+            }
         } finally {
             setLoading(false);
         }
