@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,11 +16,14 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await authService.login(formData.email, formData.password);
-            navigate('/dashboard');
-            window.location.reload(); // Simple reload to update navbar state
+            setError('');
+            setLoading(true);
+            await login(formData.email, formData.password);
+            navigate('/user-dashboard');
         } catch (err) {
-            setError(err.message);
+            setError('Failed to login: ' + err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -53,9 +58,10 @@ const Login = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 py-3 font-bold text-white shadow-lg transition-all hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/20 hover:-translate-y-0.5"
+                        disabled={loading}
+                        className="w-full rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 py-3 font-bold text-white shadow-lg transition-all hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/20 hover:-translate-y-0.5 disabled:opacity-50"
                     >
-                        Login
+                        {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
                 <p className="mt-6 text-center text-sm text-gray-400">

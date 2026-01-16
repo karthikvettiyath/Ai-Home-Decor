@@ -278,7 +278,9 @@ app.get("/", (req, res) => {
     res.send("Backend running successfully");
 });
 
-app.post("/api/generate-design", async (req, res) => {
+const { authenticateUser } = require("./middleware/auth");
+
+app.post("/api/generate-design", authenticateUser, async (req, res) => {
     try {
         // Rate limit (7s)
         const now = Date.now();
@@ -434,7 +436,7 @@ app.post("/api/generate-design", async (req, res) => {
     }
 });
 
-app.post("/api/chat", async (req, res) => {
+app.post("/api/chat", authenticateUser, async (req, res) => {
     try {
         const { message, history } = req.body;
         if (!message) return res.status(400).json({ success: false, message: "Message required" });

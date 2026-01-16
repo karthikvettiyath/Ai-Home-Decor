@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { useAuth } from '../contexts/AuthContext';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -9,7 +9,9 @@ const Register = () => {
         password: ''
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { signup } = useAuth();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,16 +19,24 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (formData.password.length < 6) {
+            return setError('Password must be at least 6 characters');
+        }
+
         try {
-            await authService.register(
-                formData.name,
+            setError('');
+            setLoading(true);
+            await signup(
                 formData.email,
-                formData.password
+                formData.password,
+                formData.name
             );
-            navigate('/dashboard');
-            window.location.reload(); // Update navbar
+            navigate('/user-dashboard');
         } catch (err) {
-            setError(err.message);
+            setError('Failed to create an account: ' + err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -73,9 +83,10 @@ const Register = () => {
 
                     <button
                         type="submit"
-                        className="mt-6 w-full rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 py-3 font-bold text-white shadow-lg transition-all hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/20 hover:-translate-y-0.5"
+                        disabled={loading}
+                        className="mt-6 w-full rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 py-3 font-bold text-white shadow-lg transition-all hover:from-purple-500 hover:to-indigo-500 hover:shadow-purple-500/20 hover:-translate-y-0.5 disabled:opacity-50"
                     >
-                        Register
+                        {loading ? 'Creating Account...' : 'Register'}
                     </button>
                 </form>
                 <p className="mt-6 text-center text-sm text-gray-400">

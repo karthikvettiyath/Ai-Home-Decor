@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { useAuth } from '../contexts/AuthContext';
 import { LogOut, User } from 'lucide-react';
 
 const Navbar = () => {
-    const [user, setUser] = useState(null);
+    const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
+    const [error, setError] = useState('');
 
-    useEffect(() => {
-        setUser(authService.getCurrentUser());
-    }, []);
-
-    const handleLogout = () => {
-        authService.logout();
-        setUser(null);
-        navigate('/');
-        window.location.reload();
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch {
+            setError('Failed to log out');
+        }
     };
 
     return (
@@ -28,7 +27,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-8 text-sm font-medium">
                     <Link to="/" className="text-gray-300 hover:text-white transition">Home</Link>
 
-                    {user ? (
+                    {currentUser ? (
                         <div className="flex items-center gap-6">
                             <Link to="/generate-design" className="text-gray-300 hover:text-purple-400 transition">Design</Link>
                             <Link to="/user-dashboard" className="text-gray-300 hover:text-purple-400 transition">Dashboard</Link>
@@ -36,7 +35,7 @@ const Navbar = () => {
                             <div className="flex items-center gap-4 pl-6 border-l border-white/10">
                                 <span className="flex items-center gap-2 text-gray-400">
                                     <User size={16} />
-                                    <span className="hidden sm:inline">{user.name}</span>
+                                    <span className="hidden sm:inline">{currentUser.displayName || currentUser.email}</span>
                                 </span>
                                 <button
                                     onClick={handleLogout}
